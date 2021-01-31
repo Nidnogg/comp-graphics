@@ -8,27 +8,23 @@ function CactuarAnimation() {}
 Object.assign( CactuarAnimation.prototype, {
 
     init: function() {
+        let rightLowerArmTween = new TWEEN.Tween( {theta:0} )
+        .to( {theta:Math.PI/2 }, 377)
+        .onUpdate(function(){
+            let right_lower_arm =  robot.getObjectByName("right_lower_arm");                               
+            right_lower_arm.matrix.makeRotationZ(this._object.theta)            
+            .premultiply( new THREE.Matrix4().makeTranslation(2,-1.5 , 0 ));
 
-
-        let rightLowerArmTween = new TWEEN.Tween ( {theta: 0})
-            .to( {theta:Math.PI/2}, 500)
-            .onUpdate(function() {
-              let right_lower_arm = robot.getObjectByName("right_lower_arm")
-              //right_lower_arm.matrix.makeRotationZ(this.object.theta/2)
-              .multiply( new THREE.Matrix4().makeTranslation(0, -2, 0))
-              .premultiply( new THREE.Matrix4().makeTranslation(-0.5, 2, 0))
-              .premultiply( new THREE.Matrix4().makeTranslation(2.6, 0, 0));
-              right_lower_arm.updateMatrixWorld(true);
-
-              // Updating screen
-              stats.update();
-              renderer.render(scene, camera);    
-          
-            })
-
+            // Updating final world matrix (with parent transforms) - mandatory
+            right_lower_arm.updateMatrixWorld(true);
+            // Updating screen
+            stats.update();
+            renderer.render(scene, camera);    
+        })
+            
         //BRAÇO DIREITO
         let upperArmTween = new TWEEN.Tween( {theta:0} )
-            .to( {theta:Math.PI/1.8 }, 377)
+            .to( {theta:Math.PI }, 377)
             .onUpdate(function(){
                 /*  Rotação do BRAÇO direito
                     Lê-se o premultiply de trás para a frente. Acontecendo a seguinte sequência de eventos:
@@ -129,13 +125,13 @@ Object.assign( CactuarAnimation.prototype, {
 
         //PERNA DIREITA
         let rightLowerLegTween = new TWEEN.Tween( {theta:0} )
-        .to( {theta:Math.PI/36 }, 500)
+        .to( {theta:-Math.PI/2 }, 377)
         .onUpdate(function(){
             //Parte análoga à movimentação do braço e antebraço, seguindo a ideia da perna e coxa.
             let right_lower_leg =  robot.getObjectByName("right_lower_leg");                               
             right_lower_leg.matrix.makeRotationZ(this._object.theta)
             .multiply( new THREE.Matrix4().makeTranslation(0, -0.5, 0 ))                              
-            .premultiply( new THREE.Matrix4().makeTranslation(0, -2.0, 0 ))
+            .premultiply( new THREE.Matrix4().makeTranslation(-0.5, -2.0, 0 ))
             .premultiply( new THREE.Matrix4().makeTranslation(0.1, 0, 0 )); 
 
             // Updating final world matrix (with parent transforms) - mandatory
@@ -162,16 +158,13 @@ Object.assign( CactuarAnimation.prototype, {
             renderer.render(scene, camera);    
         })
             
-    
-        
         //  upperArmTween.chain( ... ); this allows other related Tween animations occur at the same time
         // Não foi necessário mover o antebraço direito nessa animação
         upperArmTween.start();        
-        //rightLowerArmTween.start();
+        rightLowerArmTween.start();
         leftUpperArmTween.start(); 
         leftLowerArmTween.start();
         leftUpperLegTween.start();
-        //rightUpperLegTween.start();
         leftLowerLegTween.start();
         rightLowerLegTween.start();
         
