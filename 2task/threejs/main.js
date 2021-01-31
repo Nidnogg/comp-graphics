@@ -102,9 +102,9 @@ function onDocumentKeyDown(event) {
     key = parseInt(event.key);
 
     animations = {
-        1 : WaveAnimation,
-        2 : false,
-        3 : false,
+        1 : CactuarAnimation,
+        2 : UsainBoltAnimation,
+        //3 : CactuarAnimation,
     };
 
     // Run selected animation
