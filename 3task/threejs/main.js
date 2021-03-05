@@ -51,7 +51,7 @@ function init() {
     /* Complete: add 
     other planets */ 
     moon = createSphere(0.125, 20, 'texture/moon.jpg', 'Phong')
-    moon.position.z = -15;
+    moon.position.z = -3;
     
     /*
     mars = createSphere(1, 20, 'texture/mars.jpg', 'Phong');
@@ -81,8 +81,8 @@ function init() {
     
     earth.add(moon);
 
-    scene.add(earth);
-    scene.add(moon);
+    //scene.add(earth);
+    //scene.add(moon);
     scene.add(sun);
 
     /*
@@ -134,7 +134,9 @@ function animate() {
 
     stats.update();
     renderer.render( scene, camera );
-    earth.rotation.y+=0.02 
+    earth.rotation.y+=0.02;
+    sun.rotation.y+=0.02;
+    
 
 }
 
