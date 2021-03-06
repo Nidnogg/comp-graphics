@@ -15,7 +15,6 @@ var sun, earth;
 // Light in the scene 
 var sunlight;
 
-
 function init() {
 
     // Setting up renderer
@@ -35,10 +34,10 @@ function init() {
     scene = new THREE.Scene();
     // Earth
     earth = createSphere(1, 20, 'texture/earth.jpg', 'Phong');
-    earth.position.z = -12;
+    earth.position.z = -16;
 
     // Sun (Sphere + Light)
-    sun = createSphere(1.25, 20, 'texture/sun.jpg');
+    sun = createSphere(1.5, 20, 'texture/sun.jpg');
     sun.position.z = -3;
     /* Complete: add light
     sunlight...;
@@ -53,30 +52,39 @@ function init() {
     moon = createSphere(0.125, 20, 'texture/moon.jpg', 'Phong')
     moon.position.z = -3;
     
-    /*
-    mars = createSphere(1, 20, 'texture/mars.jpg', 'Phong');
-    mars.position.z = -24;
-    mercury = createSphere(1, 7, 'texture/mercury.jpg', 'Phong')
-    mercury.position.z = -6;
-
-
-    neptune = createSphere(1, 20, 'texture/neptune.jpg', 'Phong')
-    neptune.position.z = -24;
-
-    saturn = createSphere(1, 20, 'texture/saturn.jpg', 'Phong')
-    saturn.position.z = -24;
-
-    jupiter = createSphere(1, 20, 'texture/jupiter.jpg', 'Phong')
-    jupiter.position.z = -24;
-
-    uranus = createSphere(1, 20, 'texture/uranus.jpg', 'Phong')
-    uranus.position.z = -24;
-
+    mars = createSphere(0.5, 20, 'texture/mars.jpg', 'Phong');
+    mars.position.z = -20;
+    mercury = createSphere(0.5, 20, 'texture/mercury.jpg', 'Phong')
+    mercury.position.z = -5;
+    
     venus = createSphere(1, 20, 'texture/venus.jpg', 'Phong')
-    venus.position.z = -24;
+    venus.position.z = -10;
+    
+    jupiter = createSphere(1.5, 20, 'texture/jupiter.jpg', 'Phong')
+    jupiter.position.z = -30;
+   
+    saturn = createSphere(1.44, 20, 'texture/saturn.jpg', 'Phong')
+    saturn.position.z = -35;
+   
+    uranus = createSphere(1.25, 20, 'texture/uranus.jpg', 'Phong')
+    uranus.position.z = -40;
+
+    neptune = createSphere(1.25, 20, 'texture/neptune.jpg', 'Phong')
+    neptune.position.z = -45;
+    /*
+
+
+
+
     */
 
-    
+    sun.add(mars);
+    sun.add(mercury);
+    sun.add(venus);
+    sun.add(jupiter);
+    sun.add(saturn);
+    sun.add(uranus);
+    sun.add(neptune);
     
     
     earth.add(moon);
@@ -125,6 +133,39 @@ function onDocumentKeyDown(event) {
     console.log(event.which);
 }
 
+// For rotation
+
+var origin = new THREE.Vector3(0, 0, 0);
+
+var axis = new THREE.Vector3(0, 1, 0);
+
+
+var dt = 0.25;
+var earth_trans_speed = 25;
+var mercury_trans_speed = 25/88;
+var venus_trans_speed = 25/220;
+var mars_trans_speed = 25 * 2;
+var jupiter_trans_speed = 25* 11.8;
+var saturn_trans_speed = 25/30;
+var uranus_trans_speed = 25/88;
+var neptune_trans_speed = 25/165;
+
+
+
+
+
+
+var earth_value = earth_trans_speed * dt; 
+var mercury_value = mercury_trans_speed * dt;
+var venus_value = venus_trans_speed * dt;
+var mars_value = mars_trans_speed * dt;
+var jupiter_value = venus_trans_speed * dt;
+var saturn_value = venus_trans_speed * dt;
+var uranus_value = venus_trans_speed * dt;
+var neptune_value = neptune_trans_speed * dt;
+
+
+
 function animate() {
     
     requestAnimationFrame( animate );
@@ -134,8 +175,26 @@ function animate() {
 
     stats.update();
     renderer.render( scene, camera );
+
+    // rotation.y 0.02 is one earth day
     earth.rotation.y+=0.02;
-    sun.rotation.y+=0.02;
+    mercury.rotation.y+=(0.02/58.6);
+    venus.rotation.y+=(0.02/243);
+    mars.rotation.y+=(0.02/1.03);
+    jupiter.rotation.y+=(0.02*0.41);
+    saturn.rotation.y+=(0.02*0.45);
+    uranus.rotation.y+=(0.02*0.72);
+    neptune.rotation.y+=(0.02*0.67);
+
+    earth.rotateAroundPoint(origin,earth_value,axis,0);
+    mercury.rotateAroundPoint(origin,mercury_value, axis)
+    venus.rotateAroundPoint(origin, venus_value, axis)
+    mars.rotateAroundPoint(origin, mars_value, axis)
+    jupiter.rotateAroundPoint(origin, jupiter_value, axis)
+    saturn.rotateAroundPoint(origin, saturn_value, axis)
+    uranus.rotateAroundPoint(origin, uranus_value, axis)
+    neptune.rotateAroundPoint(origin, neptune_value, axis)
+    //sun.rotation.y+=0.02;
     
 
 }
