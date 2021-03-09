@@ -1,3 +1,13 @@
+/*
+##############################
+Trabalho realizado por:
+Henrique Vermelho
+Hugo Fernandes
+
+Código parcialmente dado e completado pela dupla.
+##############################
+*/
+
 // ThreeJS variables
 var camera, scene, renderer;
 
@@ -65,6 +75,10 @@ function init() {
    
     saturn = createSphere(1.44, 20, 'texture/saturn.jpg', 'Phong')
     saturn.position.z = -35;
+
+    saturn_ring = createRing(1.66,2.6,90, 'texture/saturn_ring.png', 'Phong') 
+    saturn_ring.rotation.x=-1.1;
+    saturn_ring.position.z = -35;   
    
     uranus = createSphere(1.25, 20, 'texture/uranus.jpg', 'Phong')
     uranus.position.z = -40;
@@ -81,11 +95,13 @@ function init() {
     sun.add(mars);
     sun.add(mercury);
     sun.add(venus);
-    sun.add(jupiter);
-    sun.add(saturn);
-    sun.add(uranus);
+    sun.add(jupiter); //
+    sun.add(saturn); //
+    sun.add(uranus); //
     sun.add(neptune);
     
+    
+    sun.add(saturn_ring);   
     
     earth.add(moon);
 
@@ -139,7 +155,7 @@ var origin = new THREE.Vector3(0, 0, 0);
 
 var axis = new THREE.Vector3(0, 1, 0);
 
-
+/*
 var dt = 0.25;
 var earth_trans_speed = 25;
 var mercury_trans_speed = 25/88;
@@ -149,20 +165,31 @@ var jupiter_trans_speed = 25* 11.8;
 var saturn_trans_speed = 25/30;
 var uranus_trans_speed = 25/88;
 var neptune_trans_speed = 25/165;
+*/
 
+// Teste com velocidades 2
+var dt = 5;
+var earth_trans_speed = 1/365;
+var mercury_trans_speed = 1/88;
+var venus_trans_speed = 1/225;
+var mars_trans_speed = 1/686;
+var jupiter_trans_speed = 1/4329;
+var saturn_trans_speed = 1/10585;
+var uranus_trans_speed = 1/30660;
+var neptune_trans_speed = 1/60225;
 
-
-
-
+var saturn_ring_trans_speed = 1/10585;
 
 var earth_value = earth_trans_speed * dt; 
 var mercury_value = mercury_trans_speed * dt;
 var venus_value = venus_trans_speed * dt;
 var mars_value = mars_trans_speed * dt;
-var jupiter_value = venus_trans_speed * dt;
-var saturn_value = venus_trans_speed * dt;
-var uranus_value = venus_trans_speed * dt;
+var jupiter_value = jupiter_trans_speed * dt;
+var saturn_value = saturn_trans_speed * dt;
+var uranus_value = uranus_trans_speed * dt;
 var neptune_value = neptune_trans_speed * dt;
+
+var saturn_ring_value = saturn_ring_trans_speed * dt;
 
 
 
@@ -177,15 +204,20 @@ function animate() {
     renderer.render( scene, camera );
 
     // rotation.y 0.02 is one earth day
-    earth.rotation.y+=0.02;
-    mercury.rotation.y+=(0.02/58.6);
-    venus.rotation.y+=(0.02/243);
-    mars.rotation.y+=(0.02/1.03);
-    jupiter.rotation.y+=(0.02*0.41);
-    saturn.rotation.y+=(0.02*0.45);
-    uranus.rotation.y+=(0.02*0.72);
-    neptune.rotation.y+=(0.02*0.67);
+    var earthRotationDay = 365;
+    earth.rotation.y+=earthRotationDay;
+    mercury.rotation.y+=(earthRotationDay/58.6);
+    venus.rotation.y+=(earthRotationDay/243);
+    mars.rotation.y+=(earthRotationDay/1.03);
+    jupiter.rotation.y+=(earthRotationDay*0.41);
+    saturn.rotation.y+=(earthRotationDay*0.45);
+    uranus.rotation.y+=(earthRotationDay*0.72);
+    neptune.rotation.y+=(earthRotationDay*0.67);
 
+    saturn_ring.rotation.z+=(earthRotationDay*0.00045);
+    
+    
+    //Revolution
     earth.rotateAroundPoint(origin,earth_value,axis,0);
     mercury.rotateAroundPoint(origin,mercury_value, axis)
     venus.rotateAroundPoint(origin, venus_value, axis)
@@ -194,7 +226,10 @@ function animate() {
     saturn.rotateAroundPoint(origin, saturn_value, axis)
     uranus.rotateAroundPoint(origin, uranus_value, axis)
     neptune.rotateAroundPoint(origin, neptune_value, axis)
+    saturn_ring.rotateAroundPoint(origin, saturn_value, axis)    
     //sun.rotation.y+=0.02;
+
+    
     
 
 }

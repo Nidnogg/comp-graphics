@@ -19,12 +19,13 @@ function createSphere(radius, segments, texture_path, type = 'Basic') {
 
 
 function createRing(inner_radius, outer_radius, segments, texture_path, type = 'Basic') {
-    var ring_geom = new THREE.SphereGeometry(inner_radius, outer_radius, segments, segments);
+    var ring_geom = new THREE.RingGeometry(inner_radius, outer_radius, segments, segments);
     const loader = new THREE.TextureLoader();
     const texture = loader.load(texture_path);
     if(type == 'Phong') {
         var ring_material = new THREE.MeshPhongMaterial({
-            map: texture
+            map: texture,
+            side: THREE.DoubleSide
         });
     }
     else {
@@ -68,7 +69,7 @@ THREE.Object3D.prototype.rotateAroundPoint = function() {
             this.parent.worldToLocal(this.position); // undo world coordinates compensation
         }
     
-        this.rotateOnAxis(axis, theta); // rotate the OBJECT
+        //this.rotateOnAxis(axis, theta); // rotate the OBJECT
 
         return this;
     }
